@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.my.myboard">
+  
+  	<!-- 컬럼 값을 어디다 넣을지 명시해주는 역활 (컬럼명과 결과를 저장할 객체의 필드명이 다를경우)-->
+  	<resultMap type ="com.my.dto.MyBoardDto" id="MyBoardMap">
+  		<result property="myno" column="MYNO"/>
+  		<result property="myname" column="MYNAME"/>
+  		<result property="mytitle" column="MYTITLE"/>
+  		<result property="mycontent" column="MYCONTENT"/>
+  		<result property="mydate" column="MYDATE"/>
+  	</resultMap>
+  
+  	<!-- Dto의 필드와 테이블의 컬럼이 같아야함 getter, setter를 찾을때 -->
+  	<select id="selectAll" resultType="MyBoardDto">
+  		SELECT MYNO, MYNAME, MYTITLE, MYCONTENT, MYDATE
+  		FROM MYBOARD
+  		ORDER BY MYNO DESC
+  	</select>
+  	
+  	<select id="selectOne" resultMap="MyBoardMap" parameterType="int">
+  		SELECT *
+  		FROM MYBOARD
+  		WHERE MYNO=#{myno}
+  	</select>
+  	
+  	<insert id="myinsert">
+  		INSERT INTO MYBOARD
+  		VALUES(MYSEQ.NEXTVAL,#{myname},#{mytitle},#{mycontent},SYSDATE)
+  	</insert>
+  </mapper>
